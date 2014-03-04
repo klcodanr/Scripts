@@ -1,4 +1,4 @@
-CQ-Developer-Start-Script
+Scripts
 =========================
 
-A simple start/stop script for CQ developers
+Some of the scripts I use regularly
