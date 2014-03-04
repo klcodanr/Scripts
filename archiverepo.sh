@@ -12,7 +12,7 @@ cd ..
 zip -r9 -s 50m $2.zip $2
 
 echo "Copying to archive"
-mv $2.zip ~/git/archive
+mv $2.z* ~/git/archive
 rm -rf $2
 
 echo "Updating archive"
