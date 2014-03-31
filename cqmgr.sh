@@ -19,9 +19,13 @@ function startcq
 	mkdir -p crx-quickstart/logs
 	echo "Starting CQ"
 	echo "Using JAR $cqjar"
-	echo "Using Debug Port $debugport"
-	echo "Using JMX Port $jmxport"
-	java -Xdebug $vmargs -Xrunjdwp:transport=dt_socket,server=y,address=$debugport,suspend=n -Dcom.sun.management.jmxremote.port=$jmxport -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar $cqjar $gui -nofork &> crx-quickstart/logs/start.log &
+	if [ "$debug" = "true" ]; then
+		echo "Using Debug Port $debugport"
+		echo "Using JMX Port $jmxport"
+		java -Xdebug $vmargs -Xrunjdwp:transport=dt_socket,server=y,address=$debugport,suspend=n -Dcom.sun.management.jmxremote.port=$jmxport -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar $cqjar $gui -nofork &> crx-quickstart/logs/start.log &
+	else
+		java $vmargs -jar $cqjar $gui -nofork &> crx-quickstart/logs/start.log &
+	fi
 	echo "CQ Start Command Issued Successfully"
 }
 
@@ -34,6 +38,7 @@ function usage
 version=5.6.1
 root=~/dev/cq
 publish=
+debug="true"
 gui=-gui
 vmargs="-Xmx1g -XX:MaxPermSize=256m"
 debugport=30303
@@ -55,6 +60,8 @@ while [ "$1" != "" ]; do
         -p | --publish )    	publish="1"
                                 ;;
         -ng | --no-gui )    	gui=
+                                ;;
+        -nd | --no-debug )    	debug="false"
                                 ;;
         -h | --help )           usage
                                 exit
