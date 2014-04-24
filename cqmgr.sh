@@ -22,11 +22,19 @@ function startcq
 	if [ "$debug" = "true" ]; then
 		echo "Using Debug Port $debugport"
 		echo "Using JMX Port $jmxport"
-		java -Xdebug $vmargs -Xrunjdwp:transport=dt_socket,server=y,address=$debugport,suspend=n -Dcom.sun.management.jmxremote.port=$jmxport -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar $cqjar $gui -nofork &> crx-quickstart/logs/start.log &
+		java -Xdebug $vmargs -Xrunjdwp:transport=dt_socket,server=y,address=$debugport,suspend=n -Dcom.sun.management.jmxremote.port=$jmxport -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar $cqjar $gui -nofork &
+		echo $! > $cqdir/crx-quickstart/conf/cq.pid
 	else
-		java $vmargs -jar $cqjar $gui -nofork &> crx-quickstart/logs/start.log &
+		java $vmargs -jar $cqjar $gui -nofork &
+		echo $! > $cqdir/crx-quickstart/conf/cq.pid
 	fi
-	echo "CQ Start Command Issued Successfully"
+}
+
+function stopcq
+{
+	echo "Stopping CQ"
+	$cqdir/crx-quickstart/bin/stop
+	echo "CQ Stop Command Issued Successfully"
 }
 
 function usage
@@ -70,6 +78,8 @@ while [ "$1" != "" ]; do
                                 ;;
         start )           		action="start"
                                 ;;
+        stop )           		action="stop"
+                                ;;
         * )                     usage
                                 exit 1
     esac
@@ -97,6 +107,16 @@ elif [ "$action" = "reset" ] ; then
 		do
 		    	cqdir=$root/$pub
     			resetcq
+		done
+	fi
+elif [ "$action" = "stop" ] ; then
+	cqdir=$root/$version
+	stopcq
+	if [ "$publish" = "1" ]; then
+		ls $root | grep ^$version-publish-.*$ | while read pub
+		do
+		    	cqdir=$root/$pub
+    			stopcq
 		done
 	fi
 fi
