@@ -17,6 +17,7 @@ fi
 ~/scripts/close_tunnels.sh
 ~/scripts/create_dev_tunnel.sh
 ~/scripts/create_qa_tunnel.sh
+~/scripts/create_prod_tunnel.sh
 cd /tmp
 
 echo "Copying release $version..."
@@ -50,4 +51,21 @@ installpackage
 
 echo -e "Installation to QA complete!\n"
 
+port='8098'
+server='QA Author 1'
+installpackage
+
+port='8100'
+server='QA Author 2'
+installpackage
+
+port='8101'
+server='QA Publish 1'
+installpackage
+
+port='8103'
+server='QA Publish 2'
+installpackage
+
+echo -e "Installation to QA complete!\n"
 
