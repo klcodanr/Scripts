@@ -11,6 +11,8 @@ ssh -f root@192.168.24.20 -L 8093:localhost:8093 -N
 ssh -f root@192.168.24.20 -L 8094:localhost:8094 -N
 ssh -f root@192.168.24.20 -L 8095:localhost:8095 -N
 ssh -f root@192.168.24.20 -L 8096:localhost:8096 -N
+ssh -f root@192.168.24.20 -L 8106:localhost:8106 -N
+ssh -f root@192.168.24.20 -L 8107:localhost:8107 -N
 echo -e "Created the following SSH Tunnels:\nPort --- Host --- Remote Port\n"
 echo -e "8085 --- Author 1 --- 22"
 echo -e "8086 --- Author 1 --- 4502"
@@ -23,4 +25,5 @@ echo -e "8092 --- Publish 2 --- 22"
 echo -e "8093 --- Dispatcher --- 80"
 echo -e "8094 --- Dispatcher --- 22"
 echo -e "8095 --- Dispatcher --- 80"
-echo -e "8096 --- Dispatcher --- 22"
+echo -e "8106 --- Mongo --- 22"
+echo -e "8107 --- Mongo --- 27017"
