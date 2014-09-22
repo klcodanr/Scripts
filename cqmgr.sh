@@ -25,6 +25,8 @@ function help
 	echo "---Parameters---"
 	echo "-v  | --version  - Sets the CQ version to use, will be a sub-folder of the root folder"
 	echo "-vm | --vm-args  - Arguments passed to the JVM"
+	echo "-r  | --root     - Sets root directory under which the script will look for CQ instances"
+	echo "-p  | --publish  - Starts publish instances.  These instances are assumed to be folders under the root with names like [version]-publish-[NN]"
 	echo "-ng | --no-gui   - Flag for not starting CQ's GUI"
 	echo "-nd | --no-debug - Flag for not starting CQ in debug mode"
 	echo "-h  | --help     - Displays this message"
