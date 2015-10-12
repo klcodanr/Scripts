@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for image in /Users/dklco/Dropbox/IFTTT/hotredditwallpaper/*
+for image in ~/Dropbox/IFTTT/hotredditwallpaper/*
 do
 	height=$(sips -g pixelHeight "$image" | tail -n1 | cut -d" " -f4)
 	width=$(sips -g pixelWidth "$image" | tail -n1 | cut -d" " -f4)
