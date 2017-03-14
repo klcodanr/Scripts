@@ -12,6 +12,6 @@ echo "Checking Signatures..."
 ~/git/sling/check_staged_release.sh $RELEASE > ~/Desktop/$RELEASE-signatures.log 2>&1
 
 echo "Running Build..."
-~/git/sling/build_staged_release.sh $RELEASE > ~/Desktop/$RELEASE-build.log 2>&1
+~/git/sling/build_staged_release.sh $RELEASE -s > ~/Desktop/$RELEASE-build.log 2>&1
 
 edit ~/Desktop/$RELEASE-signatures.log ~/Desktop/$RELEASE-build.log
