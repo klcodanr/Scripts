@@ -1,7 +1,7 @@
 
 cask_args appdir: '/Applications'
 
-tap 'caskroom/homebrew-cask' || true
+tap 'homebrew/cask' || true
 
 # Install Java
 tap 'AdoptOpenJDK/openjdk'
