@@ -6,7 +6,7 @@ name: Verify Sling Release
 on:
   workflow_dispatch:
     inputs: 
-      RELEASE_ID:
+      releaseId:
         description: Sling Release ID
         required: true
 jobs:
@@ -23,7 +23,7 @@ jobs:
       - name: Build Sling Committers CLI
         run: mvn clean package
       - name: Verify Release
-        run: docker run -e ASF_USERNAME -e ASF_PASSWORD apache/sling-cli release verify -r $INPUT_RELEASE_ID
+        run: docker run -e ASF_USERNAME -e ASF_PASSWORD apache/sling-cli release verify -r ${{ github.event.input.releaseId }}
         env:
           ASF_USERNAME: ${{ secrets.ASF_USERNAME }}
           ASF_PASSWORD: ${{ secrets.ASF_PASSWORD }}
