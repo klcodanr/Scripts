@@ -22,7 +22,7 @@ jobs:
         with:
           java-version: 11
       - name: Build Sling Committers CLI
-        run: mvn clean package
+        run: mvn clean install
       - name: Verify Release
         run: docker run -e ASF_USERNAME -e ASF_PASSWORD apache/sling-cli release verify -r ${{ github.event.inputs.releaseId }}
         env:
