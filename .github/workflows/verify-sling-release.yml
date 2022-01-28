@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: apache/sling-org-apache-sling-committer-cli
-          ref: master
+          ref: SLING-11097
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
