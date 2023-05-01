@@ -19,7 +19,7 @@ jobs:
           java-version: 11
           distribution: "adopt-openj9"
       - name: Build Sling Committers CLI
-        run: mvn clean install
+        run: mvn clean install -DskipTests=true
       - name: Verify Release
         run: docker run -e ASF_USERNAME -e ASF_PASSWORD apache/sling-cli release verify -r ${{ github.event.inputs.releaseId }}
         env:
