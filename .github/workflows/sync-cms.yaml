@@ -4,7 +4,7 @@ on:
     - cron: 0 0 * * *
   workflow_dispatch:
 jobs:
-  get-version:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Sling Starter
@@ -36,7 +36,8 @@ jobs:
           cp starter/src/main/features/app/composum.json cms/feature/src/main/features/app
           cp starter/src/main/features/app/htl_repl.json cms/feature/src/main/features/app
       - name: Updating POM Dependency Versions
-        run: | 
+        run: |
+          sudo apt-get install -y libxml-xpath-perl
           PROPERTIES=(
             "asm.version"
             "jackrabbit.version"
