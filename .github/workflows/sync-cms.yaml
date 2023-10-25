@@ -50,7 +50,7 @@ jobs:
           for PROP in ${PROPERTIES[@]}; do
               VERSION=$(xpath -q -e "string(/project/properties/${PROP}/text())" starter/pom.xml)
               echo "Setting ${PROP} to ${VERSION}"
-              sed -i  .bak "s@<$PROP>.*</$PROP>@<$PROP>$VERSION</$PROP>@g" cms/pom.xml
+              sed -i "s@<$PROP>.*</$PROP>@<$PROP>$VERSION</$PROP>@g" cms/pom.xml
           done
           rm cms/pom.xml.bak
       - name: Check for modified files
