@@ -82,3 +82,4 @@ jobs:
             [sync-cms](https://github.com/klcodanr/Scripts/blob/master/.github/workflows/sync-cms.yaml).
           labels: update,automated pr
           branch: SLING-11069
+          base: master
