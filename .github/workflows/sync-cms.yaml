@@ -16,7 +16,7 @@ jobs:
       - name: Check for Structural Updates
         run: |
           SUM=$(tree starter/src/main/features | sha256sum)
-          if [[ "$SUM" != "a55b33d2f191400f501ffa28ff958221c290dc96ee200677a60bf627a2abe25c  -" ]]; then
+          if [[ "$SUM" != "61a96710823a07199ed5190eefd18606a53da448041470371b82d3e844083f9d  -" ]]; then
             echo "Starter Feature Structure Change Detected!"
             echo "New sum: $SUM"
             tree starter/src/main/features
