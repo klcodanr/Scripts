@@ -1,0 +1,70 @@
+name: Sync Sling Starter to CMS
+on:
+  schedule:
+    - cron: 0 0 * * *
+  workflow_dispatch:
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sling Starter
+        uses: actions/checkout@v4
+        with: 
+          repository: apache/sling-org-apache-sling-starter
+          path: starter
+          token: ${{ secrets.GH_PAT }}
+      - name: Check for Structural Updates
+        run: |
+          SUM=$(tree starter/src/main/features | sha256sum)
+          if [[ "$SUM" != "a55b33d2f191400f501ffa28ff958221c290dc96ee200677a60bf627a2abe25c  -" ]]; then
+            echo "Starter Feature Structure Change Detected!"
+            echo "New sum: $SUM"
+            tree starter/src/main/features
+            exit 1
+          fi
+      - name: Checkout Sling App CMS
+        uses: actions/checkout@v4
+        with: 
+          repository: apache/sling-org-apache-sling-app-cms
+          path: cms
+          token: ${{ secrets.GH_PAT }}
+      - name: Update Feature Files
+        run: |
+          cp starter/src/main/features/*.json cms/feature/src/main/features
+          cp starter/src/main/features/*.txt cms/feature/src/main/features
+          cp starter/src/main/features/oak/oak_base.json cms/feature/src/main/features/oak
+          cp starter/src/main/features/app/composum.json cms/feature/src/main/features/app
+          cp starter/src/main/features/app/htl_repl.json cms/feature/src/main/features/app
+      - name: Updating POM Dependency Versions
+        run: | 
+          PROPERTIES=(
+            "asm.version"
+            "jackrabbit.version"
+            "oak.version"
+            "slf4j.version"
+            "composum.version"
+            "jackson.version"
+            "groovy.version"
+          )
+          for PROP in ${PROPERTIES[@]}; do
+              VERSION=$(xpath -q -e "string(/project/properties/${PROP}/text())" starter/pom.xml)
+              echo "Setting ${PROP} to ${VERSION}"
+              sed -i  .bak "s@<$PROP>.*</$PROP>@<$PROP>$VERSION</$PROP>@g" cms/pom.xml
+          done
+          rm cms/pom.xml.bak
+      - name: Check for modified files
+        id: git-check
+        run: |
+          cd cms
+          echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+      - name: Commit latest release version
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          cd cms
+          TODAY=$(date '+%Y-%m-%d')
+          DIFF=$(git diff --unified=0)
+          git checkout -b SLING-11069-$TODAY
+          git config --global user.name 'Dan Klco'
+          git config --global user.email 'klcodanr@users.noreply.github.com'
+          git commit -am "SLING-11069 Updates from $TODAY\nDIFF: ${DIFF}"
+          git push
