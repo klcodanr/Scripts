@@ -35,6 +35,9 @@ jobs:
           cp starter/src/main/features/oak/oak_base.json cms/feature/src/main/features/oak
           cp starter/src/main/features/app/composum.json cms/feature/src/main/features/app
           cp starter/src/main/features/app/htl_repl.json cms/feature/src/main/features/app
+      - name: Tweak Dependencies
+        run: |
+          sed -i "s@tika-parsers@tika-bundle@g" cms/feature/src/main/features/base.json
       - name: Updating POM Dependency Versions
         run: |
           sudo apt-get install -y libxml-xpath-perl
